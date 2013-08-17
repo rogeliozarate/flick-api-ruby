@@ -26,3 +26,18 @@ CONFIG_FILE = "config.yaml"
   puts "Copy here the number given when you complete the process."
   `open #{auth_url}`
 
+  verify = gets.strip
+
+  begin
+    flickr.get_access_token(token['oauth_token'], token['oauth_token_secret'], verify)
+    login = flickr.test.login
+    puts "You are now authenticated as #{login.username} with token #{flickr.access_token} and secret #{flickr.access_secret}"
+    # Update our config file 
+    File.open(CONFIG_FILE, 'w') do |out|
+      CONFIG['auth']['access_token']  = flickr.access_token
+      CONFIG['auth']['access_secret'] = flickr.access_secret
+      YAML::dump(CONFIG, out)
+    end
+  rescue FlickRaw::FailedResponse => e
+    puts "Authentication failed : #{e.msg}"
+  end
