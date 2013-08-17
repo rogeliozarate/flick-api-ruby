@@ -14,3 +14,15 @@ CONFIG_FILE = "config.yaml"
   
   puts "     api key : #{CONFIG['auth']['api_key']}"
   puts "shared secret: #{CONFIG['auth']['consumer_secret']}"
+  
+  FlickRaw.api_key        = CONFIG['auth']['api_key']
+  FlickRaw.shared_secret  = CONFIG['auth']['consumer_secret']
+
+  
+  token = flickr.get_request_token
+  auth_url = flickr.get_authorize_url(token['oauth_token'], :perms => 'delete')
+
+  puts "Open this url in your process to complete the authication process : #{auth_url}"
+  puts "Copy here the number given when you complete the process."
+  `open #{auth_url}`
+
