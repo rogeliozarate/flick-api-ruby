@@ -15,15 +15,21 @@ CONFIG_FILE = "config.yaml"
 
   FlickRaw.api_key        = CONFIG['auth']['api_key']
   FlickRaw.shared_secret  = CONFIG['auth']['consumer_secret']
+  flickr.access_token     = CONFIG['auth']['access_token']
+  flickr.access_secret    = CONFIG['auth']['access_secret']
 
-  list   = flickr.photos.getRecent
+# list   = flickr.photos.getRecent
+# 
+# list.each do |image|
+#   secret  = image.secret
+#   id      = image.id
+#   info    = flickr.photos.getInfo :photo_id => id, :secret => secret
+#   puts image.id
+#   puts info.title
+#   puts info.dates.taken 
+# end
   
-  list.each do |image|
-    secret  = image.secret
-    id      = image.id
-    info    = flickr.photos.getInfo :photo_id => id, :secret => secret
-    puts image.id
-    puts info.title
-    puts info.dates.taken 
-  end
   
+# Test login
+@login = flickr.test.login
+puts "You are now authenticated as #{@login.username}"
